@@ -30,7 +30,13 @@
 }
 </style>
 
-	<div class="fileDrop"></div>
+	<div class="fileDrop">
+		
+
+	</div>
+	<ul class="uploadedList">
+
+	</ul>
 
 
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js"
@@ -39,35 +45,48 @@
 
 	<script>
 		$(document).ready(function() {
-			$(".fileDrop").on("dragenter dragover", function(event){
+			$(".fileDrop").on("dragenter dragover", function(event) {
 				event.preventDefault();
 			});
-			$(".fileDrop").on("drop", function(event){
+			$(".fileDrop").on("drop", function(event) {
 				event.preventDefault();
 				console.log("droped......");
-				
+
 				var files = event.originalEvent.dataTransfer.files;
-				
+
 				console.log(files);
-				
+
 				var file = files[0];
-				
+
 				var formData = new FormData();
-				
+
 				formData.append("file", file);
-				
+
 				$.ajax({
-					url:"/web/upload1",
-					data: formData,
-					processData:false,
-					contentType:false,
-					type:'post',
-					success:function(result){
+					url : "/web/upload1",
+					data : formData,
+					processData : false,
+					contentType : false,
+					type : 'post',
+					success : function(result) {
 						console.log("upload completed.....");
-						alert(result);
+						var str = "<li class='uimg'><img src ='display?fileName="+result+"'><span>x</span></li>";
+						$(".uploadedList").append(str);
+						
+						$('.uimg').on("click",function(e){
+							e.stopPropagation();
+							console.dir(this);
+							console.log(this.lastChild);
+							if(this.lastChild){
+								this.remove();
+								
+							}
+						});
 					}
 				});
 				
+				
+
 			})
 		});
 	</script>
