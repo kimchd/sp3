@@ -45,6 +45,29 @@
 			$(".fileDrop").on("drop", function(event){
 				event.preventDefault();
 				console.log("droped......");
+				
+				var files = event.originalEvent.dataTransfer.files;
+				
+				console.log(files);
+				
+				var file = files[0];
+				
+				var formData = new FormData();
+				
+				formData.append("file", file);
+				
+				$.ajax({
+					url:"/web/upload1",
+					data: formData,
+					processData:false,
+					contentType:false,
+					type:'post',
+					success:function(result){
+						console.log("upload completed.....");
+						alert(result);
+					}
+				});
+				
 			})
 		});
 	</script>
